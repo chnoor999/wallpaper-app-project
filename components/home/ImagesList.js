@@ -1,28 +1,26 @@
-import { FlatList, StyleSheet, View } from "react-native";
-import React, { memo, useEffect, useState } from "react";
-import { getImages } from "../../util/api";
+import { StyleSheet, View } from "react-native";
+import { memo } from "react";
+import { useDataContext } from "../../store/data-context";
+import { MasonryFlashList } from "@shopify/flash-list";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { getColumnCount } from "../../util/common";
 
 import ImagesListItem from "./ImagesListItem";
 
 const ImagesList = () => {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      const data = await getImages();
-      setData(data);
-    })();
-  }, []);
+  const { data } = useDataContext();
 
   return (
-    <View>
-      <FlatList
-        data={data.hits}
-        numColumns={2}
+    <View style={styles.container}>
+      <MasonryFlashList
+        data={data}
+        numColumns={getColumnCount()}
+        contentContainerStyle={styles.contentContainerStyle}
         showsVerticalScrollIndicator={false}
         scrollEnabled={false}
-        renderItem={({ item }) => {
-          return <ImagesListItem item={item} />;
+        estimatedItemSize={200}
+        renderItem={({ item, index }) => {
+          return <ImagesListItem item={item} index={index} />;
         }}
       />
     </View>
@@ -31,4 +29,12 @@ const ImagesList = () => {
 
 export default memo(ImagesList);
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    minHeight: 3,
+    width: wp(100),
+  },
+  contentContainerStyle: {
+    paddingHorizontal: wp(4),
+  },
+});

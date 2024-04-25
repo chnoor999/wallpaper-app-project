@@ -6,11 +6,14 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Animated, { FadeInRight } from "react-native-reanimated";
+import { useDataContext } from "../../store/data-context";
 
-const CategoriesList = () => {
-  const [categorieName, setCategorieName] = useState("");
+const CategoriesList = ({ inpRef }) => {
+  const { categorieName, setCategorieName, setSearchQuery } = useDataContext();
 
   const handleListPress = (item) => {
+    inpRef.current.clear();
+    setSearchQuery("");
     setCategorieName((pre) => (pre == item ? null : item));
   };
 

@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
-import React, { memo, useCallback, useRef, useState } from "react";
+import React, { memo, useCallback } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import {
@@ -7,10 +7,10 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { debounce } from "lodash";
+import { useDataContext } from "../../store/data-context";
 
-const SearchBar = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const inpRef = useRef(null);
+const SearchBar = ({ inpRef }) => {
+  const { searchQuery, setSearchQuery, setCategorieName } = useDataContext();
 
   const onCrossBtn = () => {
     inpRef.current.clear();
@@ -19,6 +19,7 @@ const SearchBar = () => {
 
   const handleInpValueChange = useCallback(
     debounce((txt) => {
+      setCategorieName(null);
       setSearchQuery(txt);
     }, 500),
     []
