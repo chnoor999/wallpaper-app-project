@@ -25,9 +25,10 @@ const FilterModalBackdrop = ({ animatedIndex }) => {
       style={[styles.overlay, StyleSheet.absoluteFill, overlayAnimatedStyle]}
     >
       <BlurView
+        experimentalBlurMethod="dimezisBlurView"
         style={StyleSheet.absoluteFill}
-        intensity={25}
-        tint="dark"
+        intensity={5}
+        tint="extraLight"
       ></BlurView>
     </Animated.View>
   );
@@ -38,5 +39,6 @@ export default memo(FilterModalBackdrop);
 const styles = StyleSheet.create({
   overlay: {
     backgroundColor: "rgba(0,0,0,.5)",
+    overflow: "hidden",
   },
 });

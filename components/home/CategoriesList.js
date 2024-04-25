@@ -1,21 +1,22 @@
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
-import { memo, useState } from "react";
+import { FlatList, StyleSheet, View } from "react-native";
+import { memo, useCallback } from "react";
 import { Categories } from "../../util/data";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import Animated, { FadeInRight } from "react-native-reanimated";
 import { useDataContext } from "../../store/data-context";
+
+import CategoryListItem from "./CategoryListItem";
 
 const CategoriesList = ({ inpRef }) => {
   const { categorieName, setCategorieName, setSearchQuery } = useDataContext();
 
-  const handleListPress = (item) => {
+  const handleListPress = useCallback((item) => {
     setCategorieName((pre) => (pre == item ? null : item));
     inpRef.current.clear();
     setSearchQuery("");
-  };
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -27,23 +28,12 @@ const CategoriesList = ({ inpRef }) => {
         key={(item) => item}
         renderItem={({ item, index }) => {
           return (
-            <Pressable onPress={() => handleListPress(item)}>
-              <Animated.View
-                entering={FadeInRight.springify()
-                  .delay((index + 1) * 200)
-                  .damping(1000)
-                  .duration(1000)}
-                style={[
-                  styles.listContainer,
-                  index != 0 && styles.itemSpace,
-                  item == categorieName && styles.fillListContainer,
-                ]}
-              >
-                <Text style={item == categorieName && styles.fillText}>
-                  {item}
-                </Text>
-              </Animated.View>
-            </Pressable>
+            <CategoryListItem
+              item={item}
+              index={index}
+              categorieName={categorieName}
+              handleListPress={handleListPress}
+            />
           );
         }}
       />
@@ -59,20 +49,5 @@ const styles = StyleSheet.create({
   },
   contentContainerStyle: {
     paddingHorizontal: wp("3"),
-  },
-  listContainer: {
-    backgroundColor: "rgba(0, 0, 0, 0.079)",
-    paddingVertical: hp("1"),
-    paddingHorizontal: wp("3"),
-    borderRadius: 12,
-  },
-  itemSpace: {
-    marginLeft: wp("3"),
-  },
-  fillListContainer: {
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-  },
-  fillText: {
-    color: "#fff",
   },
 });
