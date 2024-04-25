@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet } from "react-native";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { Image } from "expo-image";
 import { getColumnCount, getImageSize } from "../../util/common";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
@@ -10,16 +10,23 @@ const ImagesListItem = ({ item, index }) => {
     return { height: getImageSize(imageHeight, imageWidth) };
   };
 
-  const isLastRow = () => {
-    return (index + 1) % getColumnCount() === 0;
-  };
+  const row = useMemo(() => {
+    const firstRow = index % getColumnCount() === 0;
+    const secondRow = (index + 2) % getColumnCount() === 0;
+
+    return {
+      firstRow,
+      secondRow,
+    };
+  }, [index]);
 
   return (
     <Pressable
       style={[
         styles.imageContainer,
-        !isLastRow() && styles.spacingRight,
-        isLastRow() && styles.spacingLeft,
+        row.firstRow && styles.spacingRight,
+        !row.firstRow && styles.spacingLeft,
+        row.secondRow && styles.spacingRight,
       ]}
     >
       <Image

@@ -26,7 +26,7 @@ export const DataContextProvider = ({ children }) => {
     try {
       let url = API_URL + API_KEY + ImagesOptions;
 
-      if (search.length > 2) {
+      if (search) {
         url += `&q=${encodeURIComponent(search)}`;
       } else if (category) {
         url += `&category=${category}`;

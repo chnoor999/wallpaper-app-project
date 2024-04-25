@@ -12,9 +12,9 @@ const CategoriesList = ({ inpRef }) => {
   const { categorieName, setCategorieName, setSearchQuery } = useDataContext();
 
   const handleListPress = (item) => {
+    setCategorieName((pre) => (pre == item ? null : item));
     inpRef.current.clear();
     setSearchQuery("");
-    setCategorieName((pre) => (pre == item ? null : item));
   };
 
   return (

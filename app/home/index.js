@@ -6,25 +6,28 @@ import Header from "../../components/home/Header";
 import SearchBar from "../../components/home/SearchBar";
 import CategoriesList from "../../components/home/CategoriesList";
 import ImagesList from "../../components/home/ImagesList";
+import FilterModal from "../../components/home/FilterModal";
 
-const HoemScreen = () => {
+const HomeScreen = () => {
   const inpRef = useRef(null);
+  const filterModalRef = useRef(null);
 
   return (
     <Screen>
       <View style={styles.container}>
-        <Header />
+        <Header filterModalRef={filterModalRef} />
         <ScrollView showsVerticalScrollIndicator={false}>
           <SearchBar inpRef={inpRef} />
           <CategoriesList inpRef={inpRef} />
           <ImagesList />
         </ScrollView>
+        <FilterModal filterModalRef={filterModalRef} />
       </View>
     </Screen>
   );
 };
 
-export default memo(HoemScreen);
+export default memo(HomeScreen);
 
 const styles = StyleSheet.create({
   container: {

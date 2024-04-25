@@ -19,8 +19,8 @@ const SearchBar = ({ inpRef }) => {
 
   const handleInpValueChange = useCallback(
     debounce((txt) => {
-      setCategorieName(null);
       setSearchQuery(txt);
+      setCategorieName(null);
     }, 500),
     []
   );

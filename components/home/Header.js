@@ -6,11 +6,15 @@ import {
 } from "react-native-responsive-screen";
 import { FontAwesome6 } from "@expo/vector-icons";
 
-const Header = () => {
+const Header = ({ filterModalRef }) => {
+  const openFilterModal = () => {
+    filterModalRef.current.present();
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Pixels</Text>
-      <Pressable>
+      <Pressable onPress={openFilterModal}>
         <FontAwesome6
           name="bars-staggered"
           size={hp("2.6")}
