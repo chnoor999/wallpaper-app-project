@@ -6,9 +6,15 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
-const CategoryListItem = ({ item, index, categorieName, handleListPress }) => {
+const OutLineButtonItem = ({
+  item,
+  index,
+  isActive,
+  isForFilterModal,
+  onPress,
+}) => {
   return (
-    <Pressable onPress={() => handleListPress(item)}>
+    <Pressable onPress={() => onPress()}>
       <Animated.View
         entering={FadeInRight.springify()
           .delay((index + 1) * 200)
@@ -17,16 +23,30 @@ const CategoryListItem = ({ item, index, categorieName, handleListPress }) => {
         style={[
           styles.listContainer,
           index != 0 && styles.itemSpace,
-          item == categorieName && styles.fillListContainer,
+          !isForFilterModal
+            ? item == isActive && styles.fillListContainer
+            : isActive.map(
+                (mapItem) => mapItem.name == item && styles.fillListContainer
+              ),
         ]}
       >
-        <Text style={item == categorieName && styles.fillText}>{item}</Text>
+        <Text
+          style={
+            !isForFilterModal
+              ? item == isActive && styles.fillText
+              : isActive.map(
+                  (mapItem) => mapItem.name == item && styles.fillText
+                )
+          }
+        >
+          {item}
+        </Text>
       </Animated.View>
     </Pressable>
   );
 };
 
-export default memo(CategoryListItem);
+export default memo(OutLineButtonItem);
 
 const styles = StyleSheet.create({
   listContainer: {

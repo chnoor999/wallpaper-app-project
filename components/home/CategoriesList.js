@@ -7,7 +7,7 @@ import {
 } from "react-native-responsive-screen";
 import { useDataContext } from "../../store/data-context";
 
-import CategoryListItem from "./CategoryListItem";
+import CategoryListItem from "./OutLineButtonItem";
 
 const CategoriesList = ({ inpRef }) => {
   const { categorieName, setCategorieName, setSearchQuery } = useDataContext();
@@ -31,8 +31,8 @@ const CategoriesList = ({ inpRef }) => {
             <CategoryListItem
               item={item}
               index={index}
-              categorieName={categorieName}
-              handleListPress={handleListPress}
+              isActive={categorieName}
+              onPress={() => handleListPress(item)}
             />
           );
         }}
