@@ -45,7 +45,7 @@ export default memo(CategoriesList);
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: hp("2"),
+    marginBottom: hp("1.5"),
   },
   contentContainerStyle: {
     paddingHorizontal: wp("3"),

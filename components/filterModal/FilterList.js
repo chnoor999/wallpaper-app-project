@@ -5,7 +5,7 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Animated, { FadeInDown } from "react-native-reanimated";
 
 import OutlineButtonItem from "../home/OutLineButtonItem";
-import ColorBox from "../home/ColorBox";
+import ColorBox from "./ColorBox";
 
 const FilterList = ({ onPress, selectedFilters }) => {
   return (
@@ -13,7 +13,7 @@ const FilterList = ({ onPress, selectedFilters }) => {
       {Object.keys(Filters).map((mapItems, index) => {
         return (
           <Animated.View
-            entering={FadeInDown.delay(index * 100)
+            entering={FadeInDown.delay(index * 65)
               .springify()
               .damping(11)}
             style={styles.container}

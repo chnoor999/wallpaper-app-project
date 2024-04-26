@@ -10,6 +10,8 @@ const DataContext = createContext({
   setSearchQuery: () => {},
   activeFilter: "",
   setActiveFilter: () => {},
+  selectedFilters: "",
+  setSelectedFilters: () => {},
 });
 
 const API_KEY = `43540444-af9501d131af70cff612926a0`;
@@ -21,13 +23,29 @@ export const DataContextProvider = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [editors_choice, setEditors_choice] = useState(true);
   const [safesearch, setSafesearch] = useState(true);
-  const [activeFilter, setActiveFilter] = useState("");
+  const [activeFilter, setActiveFilter] = useState([]);
+  const [selectedFilters, setSelectedFilters] = useState([
+    { type: "order", name: "" },
+    { type: "orientation", name: "" },
+    { type: "type", name: "" },
+    { type: "colors", name: "" },
+  ]);
 
   let ImagesOptions = `&editors_choice=${editors_choice}&safesearch=${safesearch}`;
 
   const getImages = async () => {
     try {
-      let url = API_URL + API_KEY + ImagesOptions + activeFilter;
+      let url = API_URL + API_KEY + ImagesOptions;
+
+      if (activeFilter.length) {
+        activeFilter.map((mapItem) => {
+          if (mapItem.name.length) {
+            url += `&${mapItem.type == "type" ? "image_type" : mapItem.type}=${
+              mapItem.name
+            }`;
+          }
+        });
+      }
 
       if (searchQuery) {
         url += `&q=${encodeURIComponent(searchQuery)}`;
@@ -57,6 +75,8 @@ export const DataContextProvider = ({ children }) => {
     setSearchQuery,
     activeFilter,
     setActiveFilter,
+    selectedFilters,
+    setSelectedFilters,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

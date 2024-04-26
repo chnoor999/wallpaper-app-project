@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import { memo } from "react";
-import { BlurView } from "expo-blur";
 import Animated, {
   Extrapolation,
   interpolate,
@@ -23,14 +22,7 @@ const FilterModalBackdrop = ({ animatedIndex }) => {
   return (
     <Animated.View
       style={[styles.overlay, StyleSheet.absoluteFill, overlayAnimatedStyle]}
-    >
-      <BlurView
-        experimentalBlurMethod="dimezisBlurView"
-        style={StyleSheet.absoluteFill}
-        intensity={5}
-        tint="extraLight"
-      ></BlurView>
-    </Animated.View>
+    ></Animated.View>
   );
 };
 

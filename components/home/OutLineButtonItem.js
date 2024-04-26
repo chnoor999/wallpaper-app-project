@@ -34,13 +34,14 @@ const OutLineButtonItem = ({
         ]}
       >
         <Text
-          style={
+          style={[
+            styles.text,
             !isForFilterModal
               ? item == isActive && styles.fillText
               : isActive.map(
                   (mapItem) => mapItem.name == item && styles.fillText
                 )
-          }
+          ]}
         >
           {item}
         </Text>
@@ -57,6 +58,9 @@ const styles = StyleSheet.create({
     paddingVertical: hp("1"),
     paddingHorizontal: wp("3"),
     borderRadius: 12,
+  },
+  text:{
+    fontSize:hp(1.7)
   },
   itemSpace: {
     marginLeft: wp("3"),

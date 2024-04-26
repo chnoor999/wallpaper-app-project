@@ -12,16 +12,10 @@ import ActionButton from "./ActionButton";
 import { useDataContext } from "../../store/data-context";
 
 const FilterModal = ({ filterModalRef }) => {
-  const { setActiveFilter } = useDataContext();
+  const { setActiveFilter, selectedFilters, setSelectedFilters } =
+    useDataContext();
 
   const snapPoints = useMemo(() => ["75%"], []);
-
-  const [selectedFilters, setSelectedFilters] = useState([
-    { type: "order", name: "" },
-    { type: "orientation", name: "" },
-    { type: "type", name: "" },
-    { type: "colors", name: "" },
-  ]);
 
   const handleFilterPress = useCallback((filterType, item) => {
     setSelectedFilters((pre) => {
@@ -39,23 +33,18 @@ const FilterModal = ({ filterModalRef }) => {
   }, []);
 
   const handleAppy = useCallback(() => {
-    let filterURL = "";
-    selectedFilters.map((mapItem) => {
-      if (mapItem.name) {
-        filterURL += `&${
-          mapItem.type == "type" ? "image_type" : mapItem.type
-        }=${mapItem.name}`;
-      }
+    let applyFilter = false;
+    selectedFilters.map((item) => {
+      if (item.name.length > 1) applyFilter = true;
     });
+    if (!applyFilter) return;
 
-    if (filterURL) {
-      setActiveFilter(filterURL);
-      filterModalRef?.current.close();
-    }
+    setActiveFilter(selectedFilters);
+    filterModalRef?.current.close();
   }, [selectedFilters]);
 
   const handleReset = useCallback(() => {
-    setActiveFilter("");
+    setActiveFilter([]);
     setSelectedFilters((pre) => {
       return pre.map((mapItem) => {
         return {
