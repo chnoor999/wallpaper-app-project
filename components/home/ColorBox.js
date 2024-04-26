@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     marginLeft: wp(1),
     borderWidth: 2,
     borderRadius: 12,
-    borderColor:"#fff"
+    borderColor: "#fff",
   },
   container: {
     width: wp(12),
@@ -45,6 +45,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   selectColor: {
-    borderColor:"#000"
+    borderColor: "#000",
   },
 });

@@ -2,16 +2,23 @@ import { StyleSheet, Text, View } from "react-native";
 import { memo } from "react";
 import { Filters } from "../../util/data";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
-import OutlineButtonItem from "./OutLineButtonItem";
-import ColorBox from "./ColorBox";
+import OutlineButtonItem from "../home/OutLineButtonItem";
+import ColorBox from "../home/ColorBox";
 
 const FilterList = ({ onPress, selectedFilters }) => {
   return (
     <View style={styles.container}>
-      {Object.keys(Filters).map((mapItems) => {
+      {Object.keys(Filters).map((mapItems, index) => {
         return (
-          <View style={styles.container} key={mapItems}>
+          <Animated.View
+            entering={FadeInDown.delay(index * 100)
+              .springify()
+              .damping(11)}
+            style={styles.container}
+            key={mapItems}
+          >
             <Text style={styles.filterTypes}>
               {mapItems.charAt(0).toUpperCase() + mapItems.slice(1)}
             </Text>
@@ -20,14 +27,14 @@ const FilterList = ({ onPress, selectedFilters }) => {
                 return mapItems == "colors" ? (
                   <ColorBox
                     onPress={() => onPress(mapItems, item)}
-                    key={item}
                     isActive={selectedFilters}
                     color={item}
+                    key={item}
                   />
                 ) : (
                   <OutlineButtonItem
-                    onPress={() => onPress(mapItems, item)}
                     key={item}
+                    onPress={() => onPress(mapItems, item)}
                     item={item}
                     isForFilterModal
                     isActive={selectedFilters}
@@ -35,7 +42,7 @@ const FilterList = ({ onPress, selectedFilters }) => {
                 );
               })}
             </View>
-          </View>
+          </Animated.View>
         );
       })}
     </View>

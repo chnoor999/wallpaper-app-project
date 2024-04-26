@@ -6,7 +6,8 @@ import Header from "../../components/home/Header";
 import SearchBar from "../../components/home/SearchBar";
 import CategoriesList from "../../components/home/CategoriesList";
 import ImagesList from "../../components/home/ImagesList";
-import FilterModal from "../../components/home/FilterModal";
+import FilterModal from "../../components/filterModal/FilterModal";
+import AppliedFiltersList from "../../components/filterModal/AppliedFiltersList";
 
 const HomeScreen = () => {
   const inpRef = useRef(null);
@@ -19,6 +20,7 @@ const HomeScreen = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <SearchBar inpRef={inpRef} />
           <CategoriesList inpRef={inpRef} />
+          <AppliedFiltersList />
           <ImagesList />
         </ScrollView>
         <FilterModal filterModalRef={filterModalRef} />

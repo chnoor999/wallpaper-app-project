@@ -8,7 +8,7 @@ import {
 
 import FilterModalBackdrop from "./FilterModalBackdrop";
 import FilterList from "./FilterList";
-import ActionButton from "../filterModal/ActionButton";
+import ActionButton from "./ActionButton";
 import { useDataContext } from "../../store/data-context";
 
 const FilterModal = ({ filterModalRef }) => {

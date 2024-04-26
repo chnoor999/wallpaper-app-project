@@ -16,10 +16,13 @@ const OutLineButtonItem = ({
   return (
     <Pressable onPress={() => onPress()}>
       <Animated.View
-        entering={FadeInRight.springify()
-          .delay((index + 1) * 200)
-          .damping(1000)
-          .duration(1000)}
+        entering={
+          !isForFilterModal &&
+          FadeInRight.springify()
+            .delay((index + 1) * 200)
+            .damping(1000)
+            .duration(1000)
+        }
         style={[
           styles.listContainer,
           index != 0 && styles.itemSpace,
