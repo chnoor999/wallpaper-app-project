@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { memo, useRef } from "react";
 
 import Screen from "../../components/ui/Screen";
@@ -12,15 +12,16 @@ import AppliedFiltersList from "../../components/filterModal/AppliedFiltersList"
 const HomeScreen = () => {
   const inpRef = useRef(null);
   const filterModalRef = useRef(null);
+  const scrollRef = useRef(null);
 
   return (
     <Screen>
       <View style={styles.container}>
-        <Header filterModalRef={filterModalRef} />
+        <Header scrollRef={scrollRef} filterModalRef={filterModalRef} />
         <SearchBar inpRef={inpRef} />
         <CategoriesList inpRef={inpRef} />
         <AppliedFiltersList />
-        <ImagesList />
+        <ImagesList scrollRef={scrollRef} />
         <FilterModal filterModalRef={filterModalRef} />
       </View>
     </Screen>

@@ -12,6 +12,8 @@ const DataContext = createContext({
   setActiveFilter: () => {},
   selectedFilters: "",
   setSelectedFilters: () => {},
+  paginationOption: "",
+  setPaginationOption: () => {},
 });
 
 const API_KEY = `43540444-af9501d131af70cff612926a0`;
@@ -28,8 +30,10 @@ export const DataContextProvider = ({ children }) => {
     safeSearchOn: true,
   });
 
-  const [page, setPage] = useState(1);
-  const [isAppend, setISAppend] = useState(false);
+  const [paginationOption, setPaginationOption] = useState({
+    page: 1,
+    isAppend: false,
+  });
 
   const [activeFilter, setActiveFilter] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState([
@@ -43,7 +47,12 @@ export const DataContextProvider = ({ children }) => {
 
   const getImages = async () => {
     try {
-      let url = API_URL + API_KEY + ImagesOptions + `&per_page=26`;
+      let url =
+        API_URL +
+        API_KEY +
+        ImagesOptions +
+        `&per_page=26` +
+        `&page=${paginationOption.page}`;
 
       if (activeFilter.length) {
         activeFilter.map((mapItem) => {
@@ -62,7 +71,7 @@ export const DataContextProvider = ({ children }) => {
       }
       const response = await axios.get(url);
       const { data } = response;
-      if (isAppend) {
+      if (paginationOption.isAppend) {
         setData((pre) => [...pre, ...data.hits]);
       } else {
         setData(data.hits);
@@ -74,7 +83,7 @@ export const DataContextProvider = ({ children }) => {
 
   useEffect(() => {
     getImages();
-  }, [searchQuery, categorieName, activeFilter]);
+  }, [searchQuery, categorieName, activeFilter, paginationOption]);
 
   const value = {
     data,
@@ -87,6 +96,8 @@ export const DataContextProvider = ({ children }) => {
     setActiveFilter,
     selectedFilters,
     setSelectedFilters,
+    paginationOption,
+    setPaginationOption,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

@@ -10,10 +10,16 @@ import { useDataContext } from "../../store/data-context";
 import CategoryListItem from "./OutLineButtonItem";
 
 const CategoriesList = ({ inpRef }) => {
-  const { setData, categorieName, setCategorieName, setSearchQuery } =
-    useDataContext();
+  const {
+    setPaginationOption,
+    setData,
+    categorieName,
+    setCategorieName,
+    setSearchQuery,
+  } = useDataContext();
 
   const handleListPress = useCallback((item) => {
+    setPaginationOption({ isAppend: false, page: 1 });
     setData([]);
     setCategorieName((pre) => (pre == item ? null : item));
     inpRef.current.clear();

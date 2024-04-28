@@ -10,17 +10,25 @@ import { debounce } from "lodash";
 import { useDataContext } from "../../store/data-context";
 
 const SearchBar = ({ inpRef }) => {
-  const {setData, searchQuery, setSearchQuery, setCategorieName } = useDataContext();
+  const {
+    setPaginationOption,
+    setData,
+    searchQuery,
+    setSearchQuery,
+    setCategorieName,
+  } = useDataContext();
 
   const onCrossBtn = () => {
-    setData([])
+    setPaginationOption({ isAppend: false, page: 1 });
+    setData([]);
     inpRef.current.clear();
     setSearchQuery("");
   };
 
   const handleInpValueChange = useCallback(
     debounce((txt) => {
-      setData([])
+      setData([]);
+      setPaginationOption({ isAppend: false, page: 1 });
       setSearchQuery(txt);
       setCategorieName(null);
     }, 500),

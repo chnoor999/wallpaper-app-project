@@ -6,14 +6,20 @@ import {
 } from "react-native-responsive-screen";
 import { FontAwesome6 } from "@expo/vector-icons";
 
-const Header = ({ filterModalRef }) => {
+const Header = ({ filterModalRef, scrollRef }) => {
   const openFilterModal = () => {
     filterModalRef.current.present();
   };
 
+  const handleScrollUp = () => {
+    scrollRef.current.scrollToOffset({ offset: 0, animated: true });
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Pixels</Text>
+      <Pressable onPress={handleScrollUp}>
+        <Text style={styles.title}>Pixels</Text>
+      </Pressable>
       <Pressable onPress={openFilterModal}>
         <FontAwesome6
           name="bars-staggered"
