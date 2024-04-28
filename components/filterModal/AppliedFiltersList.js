@@ -9,7 +9,7 @@ import { Entypo } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 const AppliedFiltersList = () => {
-  const { activeFilter, setActiveFilter, setSelectedFilters } =
+  const { setData, activeFilter, setActiveFilter, setSelectedFilters } =
     useDataContext();
 
   const activeFiltersLength = useMemo(
@@ -18,6 +18,7 @@ const AppliedFiltersList = () => {
   );
 
   const deletefilterFromState = (state, type) => {
+    setData([]);
     state((pre) => {
       return pre.map((mapItem) => {
         if (mapItem.type == type) {
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
   },
   crossContainer: {
     padding: hp(0.5),
-    paddingHorizontal:hp(0.6),
+    paddingHorizontal: hp(0.6),
     borderRadius: 6,
     backgroundColor: "rgba(0, 0, 0, 0.4)",
   },

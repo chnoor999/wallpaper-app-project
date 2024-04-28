@@ -12,7 +12,7 @@ import ActionButton from "./ActionButton";
 import { useDataContext } from "../../store/data-context";
 
 const FilterModal = ({ filterModalRef }) => {
-  const { setActiveFilter, selectedFilters, setSelectedFilters } =
+  const { setData,setActiveFilter, selectedFilters, setSelectedFilters } =
     useDataContext();
 
   const snapPoints = useMemo(() => ["75%"], []);
@@ -33,6 +33,7 @@ const FilterModal = ({ filterModalRef }) => {
   }, []);
 
   const handleAppy = useCallback(() => {
+    setData([])
     let applyFilter = false;
     selectedFilters.map((item) => {
       if (item.name.length > 1) applyFilter = true;
@@ -44,6 +45,7 @@ const FilterModal = ({ filterModalRef }) => {
   }, [selectedFilters]);
 
   const handleReset = useCallback(() => {
+    setData([])
     setActiveFilter([]);
     setSelectedFilters((pre) => {
       return pre.map((mapItem) => {

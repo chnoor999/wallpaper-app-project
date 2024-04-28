@@ -17,7 +17,6 @@ const ImagesList = () => {
         numColumns={getColumnCount()}
         contentContainerStyle={styles.contentContainerStyle}
         showsVerticalScrollIndicator={false}
-        scrollEnabled={false}
         estimatedItemSize={200}
         renderItem={({ item, index }) => {
           return <ImagesListItem item={item} index={index} />;
@@ -31,6 +30,7 @@ export default memo(ImagesList);
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     minHeight: 3,
     width: wp(100),
   },

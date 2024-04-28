@@ -19,10 +19,18 @@ const API_URL = `https://pixabay.com/api/?key=`;
 
 export const DataContextProvider = ({ children }) => {
   const [data, setData] = useState([]);
+
   const [categorieName, setCategorieName] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [editors_choice, setEditors_choice] = useState(true);
-  const [safesearch, setSafesearch] = useState(true);
+
+  const [imagesSetting, setImagesSetting] = useState({
+    editorChoiceOn: true,
+    safeSearchOn: true,
+  });
+
+  const [page, setPage] = useState(1);
+  const [isAppend, setISAppend] = useState(false);
+
   const [activeFilter, setActiveFilter] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState([
     { type: "order", name: "" },
@@ -31,11 +39,11 @@ export const DataContextProvider = ({ children }) => {
     { type: "colors", name: "" },
   ]);
 
-  let ImagesOptions = `&editors_choice=${editors_choice}&safesearch=${safesearch}`;
+  let ImagesOptions = `&editors_choice=${imagesSetting.editorChoiceOn}&safesearch=${imagesSetting.safeSearchOn}`;
 
   const getImages = async () => {
     try {
-      let url = API_URL + API_KEY + ImagesOptions;
+      let url = API_URL + API_KEY + ImagesOptions + `&per_page=26`;
 
       if (activeFilter.length) {
         activeFilter.map((mapItem) => {
@@ -52,11 +60,13 @@ export const DataContextProvider = ({ children }) => {
       } else if (categorieName) {
         url += `&category=${categorieName}`;
       }
-
-      setData([]);
       const response = await axios.get(url);
       const { data } = response;
-      setData(data.hits);
+      if (isAppend) {
+        setData((pre) => [...pre, ...data.hits]);
+      } else {
+        setData(data.hits);
+      }
     } catch (err) {
       console.log("err", err);
     }

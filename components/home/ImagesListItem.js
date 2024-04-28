@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 300,
   },
   spacingRight: {
     marginRight: wp(1),

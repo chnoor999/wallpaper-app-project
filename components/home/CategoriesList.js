@@ -10,9 +10,11 @@ import { useDataContext } from "../../store/data-context";
 import CategoryListItem from "./OutLineButtonItem";
 
 const CategoriesList = ({ inpRef }) => {
-  const { categorieName, setCategorieName, setSearchQuery } = useDataContext();
+  const { setData, categorieName, setCategorieName, setSearchQuery } =
+    useDataContext();
 
   const handleListPress = useCallback((item) => {
+    setData([]);
     setCategorieName((pre) => (pre == item ? null : item));
     inpRef.current.clear();
     setSearchQuery("");

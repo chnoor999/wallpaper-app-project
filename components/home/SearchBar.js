@@ -10,15 +10,17 @@ import { debounce } from "lodash";
 import { useDataContext } from "../../store/data-context";
 
 const SearchBar = ({ inpRef }) => {
-  const { searchQuery, setSearchQuery, setCategorieName } = useDataContext();
+  const {setData, searchQuery, setSearchQuery, setCategorieName } = useDataContext();
 
   const onCrossBtn = () => {
+    setData([])
     inpRef.current.clear();
     setSearchQuery("");
   };
 
   const handleInpValueChange = useCallback(
     debounce((txt) => {
+      setData([])
       setSearchQuery(txt);
       setCategorieName(null);
     }, 500),

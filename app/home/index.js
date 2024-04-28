@@ -17,12 +17,10 @@ const HomeScreen = () => {
     <Screen>
       <View style={styles.container}>
         <Header filterModalRef={filterModalRef} />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <SearchBar inpRef={inpRef} />
-          <CategoriesList inpRef={inpRef} />
-          <AppliedFiltersList />
-          <ImagesList />
-        </ScrollView>
+        <SearchBar inpRef={inpRef} />
+        <CategoriesList inpRef={inpRef} />
+        <AppliedFiltersList />
+        <ImagesList />
         <FilterModal filterModalRef={filterModalRef} />
       </View>
     </Screen>
