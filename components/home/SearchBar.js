@@ -27,8 +27,8 @@ const SearchBar = ({ inpRef }) => {
 
   const handleInpValueChange = useCallback(
     debounce((txt) => {
-      setData([]);
       setPaginationOption({ isAppend: false, page: 1 });
+      setData([]);
       setSearchQuery(txt);
       setCategorieName(null);
     }, 500),

@@ -21,6 +21,10 @@ const ImagesList = ({ scrollRef }) => {
     []
   );
 
+  if (data.length == 0) {
+    return <LoadingOverlay />;
+  }
+
   return (
     <View style={styles.container}>
       <MasonryFlashList

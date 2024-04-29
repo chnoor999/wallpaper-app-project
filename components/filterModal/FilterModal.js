@@ -12,8 +12,13 @@ import ActionButton from "./ActionButton";
 import { useDataContext } from "../../store/data-context";
 
 const FilterModal = ({ filterModalRef }) => {
-  const { setData,setActiveFilter, selectedFilters, setSelectedFilters } =
-    useDataContext();
+  const {
+    setData,
+    setActiveFilter,
+    selectedFilters,
+    setSelectedFilters,
+    setPaginationOption,
+  } = useDataContext();
 
   const snapPoints = useMemo(() => ["75%"], []);
 
@@ -33,19 +38,21 @@ const FilterModal = ({ filterModalRef }) => {
   }, []);
 
   const handleAppy = useCallback(() => {
-    setData([])
     let applyFilter = false;
     selectedFilters.map((item) => {
       if (item.name.length > 1) applyFilter = true;
     });
     if (!applyFilter) return;
+    setPaginationOption({ isAppend: false, page: 1 });
+    setData([]);
 
     setActiveFilter(selectedFilters);
     filterModalRef?.current.close();
   }, [selectedFilters]);
 
   const handleReset = useCallback(() => {
-    setData([])
+    setPaginationOption({ isAppend: false, page: 1 });
+    setData([]);
     setActiveFilter([]);
     setSelectedFilters((pre) => {
       return pre.map((mapItem) => {

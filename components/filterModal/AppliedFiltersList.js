@@ -9,8 +9,13 @@ import { Entypo } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 const AppliedFiltersList = () => {
-  const { setData, activeFilter, setActiveFilter, setSelectedFilters } =
-    useDataContext();
+  const {
+    setData,
+    activeFilter,
+    setActiveFilter,
+    setSelectedFilters,
+    setPaginationOption,
+  } = useDataContext();
 
   const activeFiltersLength = useMemo(
     () => activeFilter?.length,
@@ -18,6 +23,7 @@ const AppliedFiltersList = () => {
   );
 
   const deletefilterFromState = (state, type) => {
+    setPaginationOption({ isAppend: false, page: 1 });
     setData([]);
     state((pre) => {
       return pre.map((mapItem) => {
