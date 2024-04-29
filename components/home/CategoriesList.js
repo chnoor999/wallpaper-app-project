@@ -10,20 +10,20 @@ import { useDataContext } from "../../store/data-context";
 import CategoryListItem from "./OutLineButtonItem";
 
 const CategoriesList = ({ inpRef }) => {
-  const {
-    setPaginationOption,
-    setData,
-    categorieName,
-    setCategorieName,
-    setSearchQuery,
-  } = useDataContext();
+  const { setData, setImagesParams, imagesParams } = useDataContext();
 
   const handleListPress = useCallback((item) => {
-    setPaginationOption({ isAppend: false, page: 1 });
     setData([]);
-    setCategorieName((pre) => (pre == item ? null : item));
+    setImagesParams((pre) => {
+      return {
+        ...pre,
+        selectCategory: pre.selectCategory == item ? "" : item,
+        searchQuery: "",
+        page: 1,
+        append: false,
+      };
+    });
     inpRef.current.clear();
-    setSearchQuery("");
   }, []);
 
   return (
@@ -39,7 +39,7 @@ const CategoriesList = ({ inpRef }) => {
             <CategoryListItem
               item={item}
               index={index}
-              isActive={categorieName}
+              isActive={imagesParams.selectCategory}
               onPress={() => handleListPress(item)}
             />
           );

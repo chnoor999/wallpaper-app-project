@@ -1,24 +1,19 @@
 import { StyleSheet, Text, View } from "react-native";
-import { memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import { useDataContext } from "../../store/data-context";
 
 import FilterModalBackdrop from "./FilterModalBackdrop";
 import FilterList from "./FilterList";
 import ActionButton from "./ActionButton";
-import { useDataContext } from "../../store/data-context";
 
 const FilterModal = ({ filterModalRef }) => {
-  const {
-    setData,
-    setActiveFilter,
-    selectedFilters,
-    setSelectedFilters,
-    setPaginationOption,
-  } = useDataContext();
+  const { setData, setImagesParams, setSelectedFilters, selectedFilters } =
+    useDataContext();
 
   const snapPoints = useMemo(() => ["75%"], []);
 
@@ -43,17 +38,21 @@ const FilterModal = ({ filterModalRef }) => {
       if (item.name.length > 1) applyFilter = true;
     });
     if (!applyFilter) return;
-    setPaginationOption({ isAppend: false, page: 1 });
-    setData([]);
 
-    setActiveFilter(selectedFilters);
+    setData([]);
+    setImagesParams((pre) => {
+      return {
+        ...pre,
+        activeFilters: selectedFilters,
+        page: 1,
+        append: false,
+      };
+    });
     filterModalRef?.current.close();
   }, [selectedFilters]);
 
   const handleReset = useCallback(() => {
-    setPaginationOption({ isAppend: false, page: 1 });
     setData([]);
-    setActiveFilter([]);
     setSelectedFilters((pre) => {
       return pre.map((mapItem) => {
         return {
@@ -61,6 +60,14 @@ const FilterModal = ({ filterModalRef }) => {
           name: "",
         };
       });
+    });
+    setImagesParams((pre) => {
+      return {
+        ...pre,
+        activeFilters: [],
+        page: 1,
+        append: false,
+      };
     });
     filterModalRef?.current.close();
   }, []);

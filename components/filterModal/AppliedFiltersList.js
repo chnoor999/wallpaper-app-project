@@ -9,23 +9,35 @@ import { Entypo } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 const AppliedFiltersList = () => {
-  const {
-    setData,
-    activeFilter,
-    setActiveFilter,
-    setSelectedFilters,
-    setPaginationOption,
-  } = useDataContext();
+  const { setData, setImagesParams, setSelectedFilters, imagesParams } =
+    useDataContext();
 
   const activeFiltersLength = useMemo(
-    () => activeFilter?.length,
-    [activeFilter]
+    () => imagesParams.activeFilter?.length,
+    [imagesParams.activeFilter]
   );
 
-  const deletefilterFromState = (state, type) => {
-    setPaginationOption({ isAppend: false, page: 1 });
+  const handleDeleteActiveFilters = (type) => {
     setData([]);
-    state((pre) => {
+
+    setImagesParams((pre) => {
+      return {
+        ...pre,
+        activeFilters: pre.activeFilters.map((mapItem) => {
+          if (mapItem.type == type) {
+            return {
+              ...mapItem,
+              name: "",
+            };
+          } else {
+            return mapItem;
+          }
+        }),
+        page: 1,
+        append: false,
+      };
+    });
+    setSelectedFilters((pre) => {
       return pre.map((mapItem) => {
         if (mapItem.type == type) {
           return {
@@ -39,16 +51,11 @@ const AppliedFiltersList = () => {
     });
   };
 
-  const handleDeleteActiveFilters = (type) => {
-    deletefilterFromState(setActiveFilter, type);
-    deletefilterFromState(setSelectedFilters, type);
-  };
-
   return (
     <View>
       <FlatList
         horizontal
-        data={activeFilter}
+        data={imagesParams.activeFilters}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.contentContainerStyle}
         renderItem={({ item, index }) => {

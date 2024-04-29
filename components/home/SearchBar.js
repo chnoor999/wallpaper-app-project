@@ -10,27 +10,33 @@ import { debounce } from "lodash";
 import { useDataContext } from "../../store/data-context";
 
 const SearchBar = ({ inpRef }) => {
-  const {
-    setPaginationOption,
-    setData,
-    searchQuery,
-    setSearchQuery,
-    setCategorieName,
-  } = useDataContext();
+  const { setData, setImagesParams, imagesParams } = useDataContext();
 
   const onCrossBtn = () => {
-    setPaginationOption({ isAppend: false, page: 1 });
     setData([]);
+    setImagesParams((pre) => {
+      return {
+        ...pre,
+        searchQuery: "",
+        page: 1,
+        append: false,
+      };
+    });
     inpRef.current.clear();
-    setSearchQuery("");
   };
 
   const handleInpValueChange = useCallback(
     debounce((txt) => {
-      setPaginationOption({ isAppend: false, page: 1 });
       setData([]);
-      setSearchQuery(txt);
-      setCategorieName(null);
+      setImagesParams((pre) => {
+        return {
+          ...pre,
+          selectCategory: "",
+          searchQuery: txt,
+          page: 1,
+          append: false,
+        };
+      });
     }, 500),
     []
   );
@@ -49,7 +55,7 @@ const SearchBar = ({ inpRef }) => {
         style={styles.input}
         onChangeText={handleInpValueChange}
       />
-      {searchQuery && (
+      {imagesParams.searchQuery && (
         <Pressable style={styles.crossBtn} onPress={onCrossBtn}>
           <Entypo name="cross" size={hp("2.6")} color="#fff" />
         </Pressable>

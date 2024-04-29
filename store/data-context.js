@@ -1,19 +1,14 @@
-import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
+
+import axios from "axios";
 
 const DataContext = createContext({
   data: "",
   setData: () => {},
-  categorieName: "",
-  setCategorieName: () => {},
-  searchQuery: "",
-  setSearchQuery: () => {},
-  activeFilter: "",
-  setActiveFilter: () => {},
+  imagesParams: "",
+  setImagesParams: () => {},
   selectedFilters: "",
   setSelectedFilters: () => {},
-  paginationOption: "",
-  setPaginationOption: () => {},
 });
 
 const API_KEY = `43540444-af9501d131af70cff612926a0`;
@@ -21,21 +16,19 @@ const API_URL = `https://pixabay.com/api/?key=`;
 
 export const DataContextProvider = ({ children }) => {
   const [data, setData] = useState([]);
-
-  const [categorieName, setCategorieName] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [imagesParams, setImagesParams] = useState({
+    selectCategory: "",
+    searchQuery: "",
+    activeFilters: [],
+    page: 1,
+    append: false,
+  });
 
   const [imagesSetting, setImagesSetting] = useState({
     editorChoiceOn: true,
     safeSearchOn: true,
   });
 
-  const [paginationOption, setPaginationOption] = useState({
-    page: 1,
-    isAppend: false,
-  });
-
-  const [activeFilter, setActiveFilter] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState([
     { type: "order", name: "" },
     { type: "orientation", name: "" },
@@ -43,19 +36,15 @@ export const DataContextProvider = ({ children }) => {
     { type: "colors", name: "" },
   ]);
 
-  let ImagesOptions = `&editors_choice=${imagesSetting.editorChoiceOn}&safesearch=${imagesSetting.safeSearchOn}`;
+  let ImagesOptions = `&editors_choice=${imagesSetting.editorChoiceOn}&safesearch=${imagesSetting.safeSearchOn}&per_page=26`;
 
   const getImages = async () => {
     try {
       let url =
-        API_URL +
-        API_KEY +
-        ImagesOptions +
-        `&per_page=26` +
-        `&page=${paginationOption.page}`;
+        API_URL + API_KEY + ImagesOptions + `&page=${imagesParams.page}`;
 
-      if (activeFilter.length) {
-        activeFilter.map((mapItem) => {
+      if (imagesParams.activeFilters.length) {
+        imagesParams.activeFilters.map((mapItem) => {
           if (mapItem.name.length) {
             url += `&${mapItem.type == "type" ? "image_type" : mapItem.type}=${
               mapItem.name
@@ -63,15 +52,16 @@ export const DataContextProvider = ({ children }) => {
           }
         });
       }
-
-      if (searchQuery) {
-        url += `&q=${encodeURIComponent(searchQuery)}`;
-      } else if (categorieName) {
-        url += `&category=${categorieName}`;
+      if (imagesParams.searchQuery) {
+        url += `&q=${encodeURIComponent(imagesParams.searchQuery)}`;
       }
+      if (imagesParams.selectCategory) {
+        url += `&category=${imagesParams.selectCategory}`;
+      }
+
       const response = await axios.get(url);
       const { data } = response;
-      if (paginationOption.isAppend) {
+      if (imagesParams.append) {
         setData((pre) => [...pre, ...data.hits]);
       } else {
         setData(data.hits);
@@ -83,21 +73,15 @@ export const DataContextProvider = ({ children }) => {
 
   useEffect(() => {
     getImages();
-  }, [searchQuery, categorieName, activeFilter, paginationOption]);
+  }, [imagesParams]);
 
   const value = {
     data,
     setData,
-    categorieName,
-    setCategorieName,
-    searchQuery,
-    setSearchQuery,
-    activeFilter,
-    setActiveFilter,
+    imagesParams,
+    setImagesParams,
     selectedFilters,
     setSelectedFilters,
-    paginationOption,
-    setPaginationOption,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

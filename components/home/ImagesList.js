@@ -10,12 +10,16 @@ import ImagesListItem from "./ImagesListItem";
 import LoadingOverlay from "../ui/LoadingOverlay";
 
 const ImagesList = ({ scrollRef }) => {
-  const { data, setPaginationOption } = useDataContext();
+  const { data, setImagesParams } = useDataContext();
 
   const handleEndReached = useCallback(
     debounce(() => {
-      setPaginationOption((pre) => {
-        return { isAppend: true, page: pre.page + 1 };
+      setImagesParams((pre) => {
+        return {
+          ...pre,
+          page: pre.page + 1,
+          append: true,
+        };
       });
     }, 1000),
     []
