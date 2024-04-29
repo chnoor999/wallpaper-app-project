@@ -16,6 +16,7 @@ const _layout = () => {
           >
             <Stack.Screen name="index" />
             <Stack.Screen name="home/index" />
+            <Stack.Screen name="home/image" />
           </Stack>
         </DataContextProvider>
       </BottomSheetModalProvider>

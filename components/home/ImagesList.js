@@ -8,6 +8,7 @@ import { debounce } from "lodash";
 
 import ImagesListItem from "./ImagesListItem";
 import LoadingOverlay from "../ui/LoadingOverlay";
+import { router } from "expo-router";
 
 const ImagesList = ({ scrollRef }) => {
   const { data, setImagesParams } = useDataContext();
@@ -25,6 +26,10 @@ const ImagesList = ({ scrollRef }) => {
     []
   );
 
+  const handleListPress = (item) => {
+    router.push({ pathname: "home/image", params: item });
+  };
+
   if (data.length == 0) {
     return <LoadingOverlay />;
   }
@@ -40,7 +45,13 @@ const ImagesList = ({ scrollRef }) => {
         showsVerticalScrollIndicator={false}
         estimatedItemSize={200}
         renderItem={({ item, index }) => {
-          return <ImagesListItem item={item} index={index} />;
+          return (
+            <ImagesListItem
+              onPress={() => handleListPress(item)}
+              item={item}
+              index={index}
+            />
+          );
         }}
         ListFooterComponent={<LoadingOverlay />}
       />

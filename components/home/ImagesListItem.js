@@ -4,7 +4,7 @@ import { Image } from "expo-image";
 import { getColumnCount, getImageSize } from "../../util/common";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
-const ImagesListItem = ({ item, index }) => {
+const ImagesListItem = ({ item, index, onPress }) => {
   const getImageHeight = () => {
     const { imageHeight, imageWidth } = item;
     return { height: getImageSize(imageHeight, imageWidth) };
@@ -22,6 +22,7 @@ const ImagesListItem = ({ item, index }) => {
 
   return (
     <Pressable
+      onPress={onPress}
       style={[
         styles.imageContainer,
         row.firstRow && styles.spacingRight,
