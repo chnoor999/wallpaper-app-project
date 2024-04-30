@@ -60,11 +60,11 @@ export const DataContextProvider = ({ children }) => {
       }
 
       const response = await axios.get(url);
-      const { data } = response;
+      const { data: resposneData } = response;
       if (imagesParams.append) {
-        setData((pre) => [...pre, ...data.hits]);
+        setData((pre) => [...pre, ...resposneData.hits]);
       } else {
-        setData(data.hits);
+        setData(resposneData.hits);
       }
     } catch (err) {
       console.log("err", err);

@@ -4,7 +4,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 
 const Header = ({ filterModalRef, scrollRef }) => {
   const openFilterModal = () => {
@@ -20,13 +20,18 @@ const Header = ({ filterModalRef, scrollRef }) => {
       <Pressable onPress={handleScrollUp}>
         <Text style={styles.title}>Pixels</Text>
       </Pressable>
-      <Pressable onPress={openFilterModal}>
-        <FontAwesome6
-          name="bars-staggered"
-          size={hp("2.6")}
-          color="rgba(0,0,0,.9)"
-        />
-      </Pressable>
+      <View style={styles.btnsContainer}>
+        <Pressable style={styles.btnContainer} onPress={openFilterModal}>
+          <FontAwesome5 name="filter" size={hp("2.6")} color="rgba(0,0,0,.9)" />
+        </Pressable>
+        <Pressable style={styles.btnContainer}>
+          <Ionicons
+            name="settings-sharp"
+            size={hp("2.8")}
+            color="rgba(0,0,0,.9)"
+          />
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -38,12 +43,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: hp("1.5"),
-    paddingHorizontal: wp("3"),
+    paddingHorizontal: wp(1),
+    paddingVertical: hp(0.5),
   },
   title: {
     fontSize: hp("2.8"),
     fontWeight: "700",
     color: "rgba(0,0,0,.9)",
+    paddingHorizontal: wp(2),
+  },
+  btnsContainer: {
+    flexDirection: "row",
+    gap: hp(0.5),
+  },
+  btnContainer: {
+    paddingHorizontal: wp(2),
+    paddingVertical: hp(0.8),
+    borderRadius: 50,
+    overflow: "hidden",
   },
 });

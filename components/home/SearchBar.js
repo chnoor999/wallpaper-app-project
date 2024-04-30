@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: hp("1.8"),
+    paddingVertical:hp(1)
   },
   crossBtn: {
     paddingHorizontal: wp("2"),
