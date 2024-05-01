@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 import axios from "axios";
+import { useAsyncStorage } from "../util/AsyncStorage";
 
 const DataContext = createContext({
   data: "",
@@ -9,6 +10,10 @@ const DataContext = createContext({
   setImagesParams: () => {},
   selectedFilters: "",
   setSelectedFilters: () => {},
+  imagesSetting: "",
+  setImagesSetting: () => {},
+  isNoResults: "",
+  setIsNoResults: () => {},
 });
 
 const API_KEY = `43540444-af9501d131af70cff612926a0`;
@@ -24,7 +29,7 @@ export const DataContextProvider = ({ children }) => {
     append: false,
   });
 
-  const [imagesSetting, setImagesSetting] = useState({
+  const [imagesSetting, setImagesSetting] = useAsyncStorage("imageSetting", {
     editorChoiceOn: true,
     safeSearchOn: true,
   });
@@ -35,6 +40,8 @@ export const DataContextProvider = ({ children }) => {
     { type: "type", name: "" },
     { type: "colors", name: "" },
   ]);
+
+  const [isNoResults, setIsNoResults] = useState(false);
 
   let ImagesOptions = `&editors_choice=${imagesSetting.editorChoiceOn}&safesearch=${imagesSetting.safeSearchOn}&per_page=26`;
 
@@ -61,6 +68,12 @@ export const DataContextProvider = ({ children }) => {
 
       const response = await axios.get(url);
       const { data: resposneData } = response;
+      if (resposneData.hits.length == 0) {
+        setIsNoResults(true);
+        return;
+      } else {
+        setIsNoResults(false);
+      }
       if (imagesParams.append) {
         setData((pre) => [...pre, ...resposneData.hits]);
       } else {
@@ -68,12 +81,13 @@ export const DataContextProvider = ({ children }) => {
       }
     } catch (err) {
       console.log("err", err);
+      setIsNoResults(true);
     }
   };
 
   useEffect(() => {
     getImages();
-  }, [imagesParams]);
+  }, [imagesParams, imagesSetting]);
 
   const value = {
     data,
@@ -82,6 +96,10 @@ export const DataContextProvider = ({ children }) => {
     setImagesParams,
     selectedFilters,
     setSelectedFilters,
+    imagesSetting,
+    setImagesSetting,
+    isNoResults,
+    setIsNoResults,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

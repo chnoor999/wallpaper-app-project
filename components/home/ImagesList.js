@@ -5,13 +5,14 @@ import { MasonryFlashList } from "@shopify/flash-list";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { getColumnCount } from "../../util/common";
 import { debounce } from "lodash";
+import { router } from "expo-router";
 
 import ImagesListItem from "./ImagesListItem";
 import LoadingOverlay from "../ui/LoadingOverlay";
-import { router } from "expo-router";
+import MessageOverlay from "../ui/MessageOverlay";
 
 const ImagesList = ({ scrollRef }) => {
-  const { data, setImagesParams } = useDataContext();
+  const { data, setImagesParams, isNoResults } = useDataContext();
 
   const handleEndReached = useCallback(
     debounce(() => {
@@ -30,6 +31,10 @@ const ImagesList = ({ scrollRef }) => {
     router.push({ pathname: "home/image", params: item });
   };
 
+  if (isNoResults && data.length == 0) {
+    return <MessageOverlay>No Results Found!</MessageOverlay>;
+  }
+
   if (data.length == 0) {
     return <LoadingOverlay />;
   }
@@ -37,7 +42,7 @@ const ImagesList = ({ scrollRef }) => {
   return (
     <View style={styles.container}>
       <MasonryFlashList
-        onEndReached={handleEndReached}
+        onEndReached={isNoResults && data.length ? null : handleEndReached}
         ref={scrollRef}
         data={data}
         numColumns={getColumnCount()}
@@ -53,7 +58,13 @@ const ImagesList = ({ scrollRef }) => {
             />
           );
         }}
-        ListFooterComponent={<LoadingOverlay />}
+        ListFooterComponent={
+          isNoResults && data.length ? (
+            <MessageOverlay>No More Results</MessageOverlay>
+          ) : (
+            <LoadingOverlay />
+          )
+        }
       />
     </View>
   );
