@@ -12,8 +12,13 @@ import FilterList from "./FilterList";
 import ActionButton from "./ActionButton";
 
 const FilterModal = ({ filterModalRef }) => {
-  const { setData, setImagesParams, setSelectedFilters, selectedFilters } =
-    useDataContext();
+  const {
+    setData,
+    setImagesParams,
+    setSelectedFilters,
+    selectedFilters,
+    setIsNoResults,
+  } = useDataContext();
 
   const snapPoints = useMemo(() => ["75%"], []);
 
@@ -39,6 +44,7 @@ const FilterModal = ({ filterModalRef }) => {
     });
     if (!applyFilter) return;
 
+    setIsNoResults(false);
     setData([]);
     setImagesParams((pre) => {
       return {
@@ -52,6 +58,7 @@ const FilterModal = ({ filterModalRef }) => {
   }, [selectedFilters]);
 
   const handleReset = useCallback(() => {
+    setIsNoResults(false)
     setData([]);
     setSelectedFilters((pre) => {
       return pre.map((mapItem) => {

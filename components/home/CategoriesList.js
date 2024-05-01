@@ -10,9 +10,10 @@ import { useDataContext } from "../../store/data-context";
 import CategoryListItem from "./OutLineButtonItem";
 
 const CategoriesList = ({ inpRef }) => {
-  const { setData, setImagesParams, imagesParams } = useDataContext();
+  const { setData, setImagesParams, imagesParams,setIsNoResults } = useDataContext();
 
   const handleListPress = useCallback((item) => {
+    setIsNoResults(false)
     setData([]);
     setImagesParams((pre) => {
       return {

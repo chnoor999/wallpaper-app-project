@@ -10,9 +10,11 @@ import { debounce } from "lodash";
 import { useDataContext } from "../../store/data-context";
 
 const SearchBar = ({ inpRef }) => {
-  const { setData, setImagesParams, imagesParams } = useDataContext();
+  const { setData, setImagesParams, imagesParams, setIsNoResults } =
+    useDataContext();
 
   const onCrossBtn = () => {
+    setIsNoResults(false);
     setData([]);
     setImagesParams((pre) => {
       return {
@@ -27,6 +29,7 @@ const SearchBar = ({ inpRef }) => {
 
   const handleInpValueChange = useCallback(
     debounce((txt) => {
+      setIsNoResults(false);
       setData([]);
       setImagesParams((pre) => {
         return {
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: hp("1.8"),
-    paddingVertical:hp(1)
+    paddingVertical: hp(1),
   },
   crossBtn: {
     paddingHorizontal: wp("2"),

@@ -9,8 +9,13 @@ import { Entypo } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 const AppliedFiltersList = () => {
-  const { setData, setImagesParams, setSelectedFilters, imagesParams } =
-    useDataContext();
+  const {
+    setData,
+    setImagesParams,
+    setSelectedFilters,
+    imagesParams,
+    setIsNoResults,
+  } = useDataContext();
 
   const activeFiltersLength = useMemo(
     () => imagesParams.activeFilter?.length,
@@ -18,6 +23,7 @@ const AppliedFiltersList = () => {
   );
 
   const handleDeleteActiveFilters = (type) => {
+    setIsNoResults(false);
     setData([]);
 
     setImagesParams((pre) => {
