@@ -7,10 +7,16 @@ import {
 import { useDataContext } from "../../store/data-context";
 
 const SettingPopup = () => {
-  const { setData, setImagesParams, imagesSetting, setImagesSetting } =
-    useDataContext();
+  const {
+    setData,
+    setImagesParams,
+    imagesSetting,
+    setImagesSetting,
+    setIsNoResults,
+  } = useDataContext();
 
   const handleSwitchChange = (type) => {
+    setIsNoResults(false);
     setData([]);
     setImagesParams((pre) => {
       return {

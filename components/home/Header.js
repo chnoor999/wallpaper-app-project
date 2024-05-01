@@ -18,7 +18,7 @@ const Header = ({ filterModalRef, scrollRef }) => {
   };
 
   const handleScrollUp = () => {
-    scrollRef.current.scrollToOffset({ offset: 0, animated: true });
+    scrollRef?.current?.scrollToOffset({ offset: 0, animated: true });
   };
 
   const height = useSharedValue(0);
@@ -28,7 +28,7 @@ const Header = ({ filterModalRef, scrollRef }) => {
     setSettingBtnFilled((pre) => !pre);
     height.value =
       height.value === 0
-        ? withTiming(100, { duration: 200, easing: Easing.inOut(Easing.ease) })
+        ? withTiming(200, { duration: 200, easing: Easing.inOut(Easing.ease) })
         : withTiming(0, { duration: 200, easing: Easing.inOut(Easing.ease) });
   };
 

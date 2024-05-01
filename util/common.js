@@ -1,7 +1,4 @@
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 export const getColumnCount = () => {
   if (wp(100) >= 768) {
@@ -16,12 +13,12 @@ export const getColumnCount = () => {
 export const getImageSize = (height, width) => {
   if (width > height) {
     // landscape
-    return 250;
+    return wp(100) <= 370 ? 200 : 250;
   } else if (width < height) {
     // portait
-    return 300;
+    return wp(100) <= 370 ? 250 : 300;
   } else {
     // square
-    return 200;
+    return wp(100) <= 370 ? 150 : 200;
   }
 };

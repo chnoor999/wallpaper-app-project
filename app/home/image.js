@@ -7,11 +7,11 @@ import {
 } from "react-native-responsive-screen";
 import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
+
 import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
 import Toast from "react-native-toast-message";
-
 import MiniButtons from "../../components/imageDetail/MiniButtons";
 
 const image = () => {
@@ -24,8 +24,10 @@ const image = () => {
 
   const getSize = () => {
     const aspectRatio = data?.imageWidth / data?.imageHeight;
-    const height = wp(92) / aspectRatio;
-    const width = wp(92);
+    const height =
+      (wp(100) <= 370 ? wp(75) : wp(100) >= 768 ? wp(70) : wp(92)) /
+      aspectRatio;
+    const width = wp(100) <= 370 ? wp(75) : wp(100) >= 768 ? wp(70) : wp(92);
 
     return {
       height: height,
@@ -95,7 +97,11 @@ const image = () => {
     <BlurView style={styles.blurView} intensity={60} tint="dark">
       <View style={styles.container}>
         <View style={styles.imageContainer}>
-          <Image source={{ uri: imageUrl }} style={[styles.image, getSize()]} />
+          <Image
+            contentFit="contain"
+            source={{ uri: imageUrl }}
+            style={[styles.image, getSize()]}
+          />
         </View>
         <View style={styles.btnsContainer}>
           <MiniButtons onPress={onCrossHandler} cross />
