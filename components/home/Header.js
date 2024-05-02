@@ -5,12 +5,13 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
-import SettingPopup from "../ui/SettingPopup";
 import Animated, {
   Easing,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+
+import SettingPopup from "../ui/SettingPopup";
 
 const Header = ({ filterModalRef, scrollRef }) => {
   const openFilterModal = () => {

@@ -28,5 +28,8 @@ Offering a wallpaper preview screen with options to go back, download, and share
 Context API for State Management:
 Utilizing the Context API for state management.
 
+Full Responsiveness:
+Implementing full responsiveness ensures that your app adapts flawlessly to various screen sizes using react native responsive.
+
 Performance Optimization:
 Optimizing the app for performance ensures that it runs smoothly and efficiently, providing users with a seamless experience.

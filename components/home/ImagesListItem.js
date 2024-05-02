@@ -5,10 +5,10 @@ import { getColumnCount, getImageSize } from "../../util/common";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 const ImagesListItem = ({ item, index, onPress }) => {
-  const getImageHeight = () => {
+  const getImageHeight = useMemo(() => {
     const { imageHeight, imageWidth } = item;
     return { height: getImageSize(imageHeight, imageWidth) };
-  };
+  }, [item]);
 
   const row = useMemo(() => {
     const firstRow = index % getColumnCount() === 0;
@@ -32,7 +32,7 @@ const ImagesListItem = ({ item, index, onPress }) => {
     >
       <Image
         transition={100}
-        style={[styles.image, getImageHeight()]}
+        style={[styles.image, getImageHeight]}
         source={{ uri: item?.webformatURL }}
       />
     </Pressable>

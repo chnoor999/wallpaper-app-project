@@ -1,9 +1,10 @@
+import { Alert } from "react-native";
+import { useEffect } from "react";
 import { Stack } from "expo-router";
 import { DataContextProvider } from "../store/data-context";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Alert } from "react-native";
-import { useEffect } from "react";
+
 import NetInfo from '@react-native-community/netinfo';
 
 const _layout = () => {

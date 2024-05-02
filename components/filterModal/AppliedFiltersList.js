@@ -64,6 +64,7 @@ const AppliedFiltersList = () => {
         data={imagesParams.activeFilters}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.contentContainerStyle}
+        keyExtractor={(item) => item.type}
         renderItem={({ item, index }) => {
           return (
             item.name && (

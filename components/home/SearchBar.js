@@ -1,7 +1,6 @@
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
-import React, { memo, useCallback } from "react";
-import { AntDesign } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
+import { memo, useCallback } from "react";
+import { AntDesign, Entypo } from "@expo/vector-icons";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,

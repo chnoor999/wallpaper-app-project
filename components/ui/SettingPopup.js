@@ -1,5 +1,5 @@
 import { StyleSheet, Switch, Text, View } from "react-native";
-import React from "react";
+import { memo } from "react";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -53,7 +53,7 @@ const SettingPopup = () => {
   );
 };
 
-export default SettingPopup;
+export default memo(SettingPopup);
 
 const styles = StyleSheet.create({
   contentContainer: {

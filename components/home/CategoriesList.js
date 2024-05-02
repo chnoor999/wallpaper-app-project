@@ -7,7 +7,7 @@ import {
 } from "react-native-responsive-screen";
 import { useDataContext } from "../../store/data-context";
 
-import CategoryListItem from "./OutLineButtonItem";
+import OutlineButtonItem from "./OutLineButtonItem";
 
 const CategoriesList = ({ inpRef }) => {
   const { setData, setImagesParams, imagesParams,setIsNoResults } = useDataContext();
@@ -37,7 +37,7 @@ const CategoriesList = ({ inpRef }) => {
         key={(item) => item}
         renderItem={({ item, index }) => {
           return (
-            <CategoryListItem
+            <OutlineButtonItem
               item={item}
               index={index}
               isActive={imagesParams.selectCategory}
