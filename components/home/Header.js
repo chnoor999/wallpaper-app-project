@@ -4,22 +4,29 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons, FontAwesome6 } from "@expo/vector-icons";
 import Animated, {
   Easing,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { useNavigation } from "expo-router";
+import { DrawerActions } from "@react-navigation/native";
 
 import SettingPopup from "../ui/SettingPopup";
 
-const Header = ({ filterModalRef, scrollRef }) => {
+const Header = ({ filterModalRef, scrollRef, forFavouritesScreen }) => {
   const openFilterModal = () => {
     filterModalRef.current.present();
   };
 
   const handleScrollUp = () => {
     scrollRef?.current?.scrollToOffset({ offset: 0, animated: true });
+  };
+
+  const navigation = useNavigation();
+  const toggleDrawer = () => {
+    navigation.dispatch(DrawerActions.toggleDrawer());
   };
 
   const height = useSharedValue(0);
@@ -35,27 +42,44 @@ const Header = ({ filterModalRef, scrollRef }) => {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={handleScrollUp}>
-        <Text style={styles.title}>Pixels</Text>
-      </Pressable>
-      <View style={styles.btnsContainer}>
-        <Pressable style={styles.btnContainer} onPress={openFilterModal}>
-          <FontAwesome5 name="filter" size={hp("2.3")} color="rgba(0,0,0,.8)" />
-        </Pressable>
-        <Pressable
-          onPress={onSetting}
-          style={[
-            styles.btnContainer,
-            settingBtnFilled && styles.settingBtnFill,
-          ]}
-        >
-          <Ionicons
-            name="settings-sharp"
-            size={hp("2.5")}
-            color={settingBtnFilled ? "#fff" : "rgba(0,0,0,.8)"}
+      <View style={styles.leftContentContainer}>
+        <Pressable onPress={toggleDrawer} style={styles.btnContainer}>
+          <FontAwesome6
+            name="bars-staggered"
+            size={hp(2.4)}
+            color="rgba(0,0,0,.8)"
           />
         </Pressable>
+        <Pressable onPress={handleScrollUp}>
+          <Text style={styles.title}>
+            {forFavouritesScreen ? "Favourites" : "Pixels"}
+          </Text>
+        </Pressable>
       </View>
+      {!forFavouritesScreen && (
+        <View style={styles.btnsContainer}>
+          <Pressable style={styles.btnContainer} onPress={openFilterModal}>
+            <FontAwesome5
+              name="filter"
+              size={hp("2.3")}
+              color="rgba(0,0,0,.8)"
+            />
+          </Pressable>
+          <Pressable
+            onPress={onSetting}
+            style={[
+              styles.btnContainer,
+              settingBtnFilled && styles.settingBtnFill,
+            ]}
+          >
+            <Ionicons
+              name="settings-sharp"
+              size={hp("2.5")}
+              color={settingBtnFilled ? "#fff" : "rgba(0,0,0,.8)"}
+            />
+          </Pressable>
+        </View>
+      )}
       <Animated.View style={[styles.SettingPopup, { height }]}>
         <SettingPopup />
       </Animated.View>
@@ -72,6 +96,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: wp(1),
     paddingVertical: hp(0.5),
+  },
+  leftContentContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: hp(0.5),
   },
   title: {
     fontSize: hp("2.8"),

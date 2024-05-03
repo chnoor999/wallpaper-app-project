@@ -1,11 +1,20 @@
 import { ActivityIndicator, Pressable, StyleSheet } from "react-native";
 import { memo } from "react";
-import { Entypo, MaterialIcons } from "@expo/vector-icons";
+import { Entypo, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Animated, { FadeInDown } from "react-native-reanimated";
 
-const MiniButtons = ({ cross, download, share, delay, onPress, isLoading }) => {
+const MiniButtons = ({
+  cross,
+  download,
+  share,
+  delay,
+  onPress,
+  isLoading,
+  favourite,
+  fillFavourite,
+}) => {
   return (
     <Animated.View entering={FadeInDown.springify().delay(delay)}>
       <Pressable onPress={onPress} style={styles.container}>
@@ -19,6 +28,13 @@ const MiniButtons = ({ cross, download, share, delay, onPress, isLoading }) => {
             )}
             {share && (
               <Ionicons name="share-social-sharp" size={hp(2.8)} color="#fff" />
+            )}
+            {favourite && (
+              <FontAwesome
+                name={fillFavourite ? "heart" : "heart-o"}
+                size={hp(2.8)}
+                color="#fff"
+              />
             )}
           </>
         )}

@@ -7,6 +7,7 @@ import {
 } from "react-native-responsive-screen";
 import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
+import { useDataContext } from "../../store/data-context";
 
 import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system";
@@ -15,10 +16,12 @@ import Toast from "react-native-toast-message";
 import MiniButtons from "../../components/imageDetail/MiniButtons";
 
 const image = () => {
+  const { setFavouritesWallpaperID, favouritesWallpaperID } = useDataContext();
   const data = useLocalSearchParams();
   const fileName = data?.previewURL?.split("/").pop();
   const imageUrl = data?.webformatURL;
   const filePath = FileSystem.documentDirectory + fileName;
+  const isFavourite = favouritesWallpaperID.includes(data.id);
 
   const [loadingStatus, setLoadingStatus] = useState("");
 
@@ -37,6 +40,14 @@ const image = () => {
 
   const onCrossHandler = () => {
     router.back();
+  };
+
+  const toggleFavouriteHandler = () => {
+    if (isFavourite) {
+      setFavouritesWallpaperID((pre) => pre.filter((item) => item != data.id));
+    } else {
+      setFavouritesWallpaperID((pre) => [...pre, data.id]);
+    }
   };
 
   const downloadImage = async () => {
@@ -106,6 +117,12 @@ const image = () => {
         <View style={styles.btnsContainer}>
           <MiniButtons onPress={onCrossHandler} cross />
           <MiniButtons
+            onPress={() => toggleFavouriteHandler(data.id)}
+            favourite
+            delay={50}
+            fillFavourite={isFavourite}
+          />
+          <MiniButtons
             isLoading={loadingStatus == "downloading"}
             onPress={onDownloadHandler}
             download
@@ -115,7 +132,7 @@ const image = () => {
             isLoading={loadingStatus == "sharing"}
             onPress={onShareHandler}
             share
-            delay={200}
+            delay={150}
           />
         </View>
       </View>
@@ -145,7 +162,7 @@ const styles = StyleSheet.create({
   btnsContainer: {
     flexDirection: "row",
     padding: hp(3),
-    gap: wp(12),
+    gap: wp(8),
   },
   toastContainer: {
     padding: hp(2),

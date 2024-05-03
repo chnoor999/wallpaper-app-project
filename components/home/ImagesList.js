@@ -11,7 +11,7 @@ import ImagesListItem from "./ImagesListItem";
 import LoadingOverlay from "../ui/LoadingOverlay";
 import MessageOverlay from "../ui/MessageOverlay";
 
-const ImagesList = ({ scrollRef }) => {
+const ImagesList = ({ scrollRef, favouriteWallpaperData, forFavourite }) => {
   const { data, setImagesParams, isNoResults } = useDataContext();
 
   const handleEndReached = useCallback(
@@ -28,23 +28,29 @@ const ImagesList = ({ scrollRef }) => {
   );
 
   const handleListPress = (item) => {
-    router.push({ pathname: "home/image", params: item });
+    router.push({ pathname: "image", params: item });
   };
 
-  if (isNoResults && data.length == 0) {
+  if (isNoResults && data.length == 0 && !forFavourite) {
     return <MessageOverlay>No Results Found!</MessageOverlay>;
   }
 
-  if (data.length == 0) {
+  if (data.length == 0 && !forFavourite) {
     return <LoadingOverlay />;
   }
 
   return (
     <View style={styles.container}>
       <MasonryFlashList
-        onEndReached={isNoResults && data.length ? null : handleEndReached}
+        onEndReached={
+          forFavourite
+            ? null
+            : isNoResults && data.length
+            ? null
+            : handleEndReached
+        }
         ref={scrollRef}
-        data={data}
+        data={forFavourite ? favouriteWallpaperData : data}
         numColumns={getColumnCount()}
         contentContainerStyle={styles.contentContainerStyle}
         showsVerticalScrollIndicator={false}
@@ -59,11 +65,12 @@ const ImagesList = ({ scrollRef }) => {
           );
         }}
         ListFooterComponent={
-          isNoResults && data.length ? (
+          !forFavourite &&
+          (isNoResults && data.length ? (
             <MessageOverlay>No More Results</MessageOverlay>
           ) : (
             <LoadingOverlay />
-          )
+          ))
         }
       />
     </View>

@@ -5,7 +5,7 @@ import { DataContextProvider } from "../store/data-context";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import NetInfo from '@react-native-community/netinfo';
+import NetInfo from "@react-native-community/netinfo";
 
 const _layout = () => {
   useEffect(() => {
@@ -35,9 +35,9 @@ const _layout = () => {
             }}
           >
             <Stack.Screen name="index" />
-            <Stack.Screen name="home/index" />
+            <Stack.Screen name="home" />
             <Stack.Screen
-              name="home/image"
+              name="image/index"
               options={{ animation: "fade", presentation: "transparentModal" }}
             />
           </Stack>

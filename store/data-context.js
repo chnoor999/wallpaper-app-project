@@ -14,12 +14,18 @@ const DataContext = createContext({
   setImagesSetting: () => {},
   isNoResults: "",
   setIsNoResults: () => {},
+  favouritesWallpaperID: "",
+  setFavouritesWallpaperID: () => {},
 });
 
 const API_KEY = `43540444-af9501d131af70cff612926a0`;
 const API_URL = `https://pixabay.com/api/?key=`;
 
 export const DataContextProvider = ({ children }) => {
+  const [favouritesWallpaperID, setFavouritesWallpaperID] = useAsyncStorage(
+    "favouriteID",
+    []
+  );
   const [data, setData] = useState([]);
   const [imagesParams, setImagesParams] = useState({
     selectCategory: "",
@@ -100,6 +106,8 @@ export const DataContextProvider = ({ children }) => {
     setImagesSetting,
     isNoResults,
     setIsNoResults,
+    favouritesWallpaperID,
+    setFavouritesWallpaperID,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
