@@ -1,6 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import { memo, useEffect, useRef, useState } from "react";
 import { useDataContext } from "../../../store/data-context";
+import { heightPercentageToDP as hp} from "react-native-responsive-screen";
 
 import axios from "axios";
 import Screen from "../../../components/ui/Screen";
@@ -8,7 +9,6 @@ import Header from "../../../components/home/Header";
 import ImagesList from "../../../components/home/ImagesList";
 import LoadingOverlay from "../../../components/ui/LoadingOverlay";
 import MessageOverlay from "../../../components/ui/MessageOverlay";
-import { heightPercentageToDP as hp} from "react-native-responsive-screen";
 
 const API_KEY = `43540444-af9501d131af70cff612926a0`;
 const API_URL = `https://pixabay.com/api/?key=`;
