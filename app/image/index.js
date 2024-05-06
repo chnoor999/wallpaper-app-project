@@ -61,7 +61,6 @@ const image = () => {
 
   const onDownloadHandler = async () => {
     try {
-      setLoadingStatus("downloading");
       const { granted } = await MediaLibrary.requestPermissionsAsync();
       if (!granted) {
         Alert.alert(
@@ -72,6 +71,7 @@ const image = () => {
         setLoadingStatus("");
         return;
       }
+      setLoadingStatus("downloading");
       const uri = await downloadImage();
       await MediaLibrary.saveToLibraryAsync(uri);
       setLoadingStatus("");
